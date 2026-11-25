@@ -1,0 +1,905 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Portfolio Maxime Lamande</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Layout: même plan que l'exemple (nav, hero, À propos, Parcours, Projets, Veille, E5, E6, Contact).
+   Chaque section a sa propre mise en page : bandeau défilant, schémas, frise verticale, étapes reliées, listes à cocher. */
+:root{
+  --bg:#f2f3fa; --surface:#ffffff; --ink:#1a1d3a; --muted:#5e6385;
+  --accent:#4b3fe0; --accent-ink:#ffffff;
+  --t1:#e3ddfb; --t2:#ffe1d1; --t3:#d2f1e2; --t4:#d6e8fb; --t5:#fbf0c6;
+  --line:rgba(26,29,58,.14);
+  --f-display:"Sora","Segoe UI",system-ui,sans-serif;
+  --f-body:"DM Sans","Segoe UI",system-ui,sans-serif;
+}
+:root[data-theme="dark"]{
+  --bg:#0f1124; --surface:#181b36; --ink:#eceefb; --muted:#a3a8c9;
+  --accent:#9a92ff; --accent-ink:#0f1124;
+  --t1:#2a2564; --t2:#4a2f2a; --t3:#1f4034; --t4:#1f3a57; --t5:#4a4220;
+  --line:rgba(236,238,251,.16); color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:5.5rem}
+body{margin:0;background-color:var(--bg);background-image:radial-gradient(42rem 30rem at 90% -4%,var(--t1),transparent 70%),radial-gradient(36rem 28rem at -6% 45%,var(--t3),transparent 70%),radial-gradient(34rem 26rem at 100% 88%,var(--t2),transparent 70%);background-repeat:no-repeat;color:var(--ink);font:400 1rem/1.65 var(--f-body);overflow-x:hidden}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+h1,h2,h3,h4{font-family:var(--f-display);margin:0;text-wrap:balance;line-height:1.15}
+p{margin:0}
+ul{margin:0}
+.container{max-width:72rem;margin-inline:auto;padding-inline:1.25rem}
+.empty{color:var(--muted);font-style:italic}
+.ic{width:1.15em;height:1.15em;flex:none;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.2em}
+
+.tile{position:relative;isolation:isolate;overflow:hidden;border-radius:1.75rem;padding:1.5rem;min-width:0;background:var(--surface);display:flex;flex-direction:column;gap:.6rem}
+.c1{background:var(--t1)}.c2{background:var(--t2)}.c3{background:var(--t3)}.c4{background:var(--t4)}.c5{background:var(--t5)}.c0{background:var(--surface)}
+.tile h4{font-size:1.1rem;font-weight:600}
+.tile p{font-size:.95rem}
+.desc{font-size:.92rem;color:var(--muted)}
+.wm{position:absolute;z-index:-1;right:-1rem;bottom:-1rem;width:9rem;height:9rem;opacity:.12;stroke-width:1.1;pointer-events:none}
+.icon{width:2.8rem;height:2.8rem;flex:none;display:grid;place-items:center;border-radius:50%;background:var(--surface);color:var(--accent)}
+.icon .ic{width:1.3rem;height:1.3rem}
+.row{display:flex;align-items:center;gap:.8rem}
+.chips{display:flex;flex-wrap:wrap;gap:.45rem}
+.chip{font-size:.82rem;font-weight:500;padding:.22rem .75rem;border-radius:999px;background:var(--surface)}
+.tag{font-weight:600;font-size:.75rem;padding:.15rem .7rem;border-radius:999px;background:var(--accent);color:var(--accent-ink)}
+
+/* nav */
+.navbar{position:sticky;top:calc(env(safe-area-inset-top,0px) + .75rem);z-index:50;width:fit-content;max-width:calc(100% - 1.5rem);margin:.75rem auto 0;background:var(--surface);border-radius:999px;box-shadow:0 8px 30px rgba(26,29,58,.12)}
+.nav-in{display:flex;align-items:center;gap:1rem;padding:.45rem .5rem .45rem 1.2rem}
+.logo{font:700 1rem var(--f-display);text-decoration:none;white-space:nowrap}
+.logo span{color:var(--accent)}
+.menu{list-style:none;margin:0;padding:0;display:flex;align-items:center;gap:.1rem;flex-wrap:wrap}
+.menu a{display:block;text-decoration:none;font-weight:500;font-size:.88rem;padding:.4rem .7rem;border-radius:999px}
+.menu a:hover{background:var(--bg)}
+.menu a.active{background:var(--t1)}
+.menu a.nav-btn{background:var(--accent);color:var(--accent-ink);font-weight:600}
+.burger{display:none;width:2.6rem;height:2.6rem;border:0;border-radius:50%;background:var(--bg);cursor:pointer;padding:0;flex-direction:column;align-items:center;justify-content:center;gap:.28rem;margin-left:auto}
+.burger span{display:block;width:1.05rem;height:2px;border-radius:2px;background:var(--ink);transition:transform .25s,opacity .25s}
+.burger[aria-expanded="true"] span:nth-child(1){transform:translateY(.38rem) rotate(45deg)}
+.burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+.burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-.38rem) rotate(-45deg)}
+
+.btn{display:inline-flex;align-items:center;gap:.5rem;text-decoration:none;font-weight:600;font-size:.92rem;padding:.7rem 1.15rem;border-radius:999px;background:var(--surface);transition:transform .2s,box-shadow .2s}
+.btn{position:relative;overflow:hidden;cursor:pointer;border:0;font-family:inherit}
+.btn::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.45) 50%,transparent 70%);transform:translateX(-120%);transition:transform .6s;pointer-events:none}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(26,29,58,.18)}
+.btn:hover::after{transform:translateX(120%)}
+.btn:active{transform:translateY(0) scale(.97);box-shadow:none}
+.btn .ic{transition:transform .25s}
+.btn:hover .ic{transform:translateX(3px) scale(1.12)}
+.chip{transition:transform .2s}
+.chip:hover{transform:translateY(-2px)}
+.core,.tool,.pistes>.tile,.slim{transition:transform .3s,box-shadow .3s}
+.core:hover,.tool:hover,.pistes>.tile:hover,.slim:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(26,29,58,.16)}
+.btn-solid{background:var(--accent);color:var(--accent-ink)}
+.btn-line{background:transparent;box-shadow:inset 0 0 0 2px var(--ink)}
+
+/* hero */
+.hero{padding-block:3rem 1rem}
+.bento{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:1rem}
+.hero-main{grid-column:span 4;padding:2.5rem;gap:0;justify-content:center}
+.hello{align-self:flex-start;font-weight:600;font-size:.82rem;background:var(--t3);padding:.25rem .8rem;border-radius:999px;margin-bottom:1.25rem}
+.hero h1{font-size:clamp(2.4rem,6vw,4.2rem);font-weight:800;letter-spacing:-.04em}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero-subtitle{margin-top:.9rem;font:600 1.15rem var(--f-display);color:var(--muted)}
+.hero-desc{margin-top:1rem;font-size:1.05rem;max-width:32rem}
+.hero-buttons{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.75rem}
+.hero-id{grid-column:span 2;align-items:center;justify-content:center;text-align:center;gap:.8rem;background:var(--t1)}
+.avatar{width:min(8rem,100%);aspect-ratio:1;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font:800 2.6rem var(--f-display);box-shadow:0 0 0 .6rem var(--surface)}
+.hero-id h3{font-size:1.2rem;margin-top:.8rem}
+.hero-id p{font-size:.9rem;color:var(--muted)}
+.live{display:inline-flex;align-items:center;gap:.5rem;font-size:.82rem;font-weight:600;background:var(--surface);padding:.3rem .8rem;border-radius:999px}
+.live i{width:.55rem;height:.55rem;border-radius:50%;background:#2fbf71;box-shadow:0 0 0 .25rem rgba(47,191,113,.25)}
+.statsbar{grid-column:span 6;flex-direction:row;padding:0;gap:0}
+.stat{flex:1;padding:1.25rem 1.5rem;display:flex;align-items:center;gap:1rem}
+.stat+.stat{border-left:1px solid var(--line)}
+.stat b{font:800 2.4rem/1 var(--f-display);color:var(--accent);font-variant-numeric:tabular-nums}
+.stat span{font-size:.88rem;color:var(--muted);line-height:1.35}
+
+/* bandeau */
+.marquee-wrap{overflow:hidden;padding-block:1.75rem}
+.marquee{background:var(--accent);color:var(--accent-ink);padding:.85rem 0;transform:rotate(-1.2deg);margin-inline:-1rem}
+.track{display:flex;gap:2.2rem;width:max-content;animation:scroll 45s linear infinite}
+.track span{display:flex;align-items:center;gap:2.2rem;font:700 1.1rem var(--f-display);white-space:nowrap}
+.track span::after{content:"";width:.5rem;height:.5rem;border-radius:50%;background:currentColor;opacity:.55}
+@keyframes scroll{to{transform:translateX(-50%)}}
+
+/* sections */
+section.block{padding-block:3.5rem}
+.title-wrap{display:flex;align-items:center;gap:.9rem;margin-bottom:1.75rem}
+.title-wrap .icon{background:var(--t1);width:3.1rem;height:3.1rem}
+.section-title{font-size:clamp(1.7rem,4vw,2.4rem);font-weight:700;letter-spacing:-.03em}
+.grid{display:grid;gap:1rem}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.sub-title,.v-h{display:flex;align-items:center;gap:.6rem;font-size:1.25rem;font-weight:700;margin:2.75rem 0 1rem}
+.sub-title:first-child{margin-top:0}
+.sub-title small{font:500 .85rem var(--f-body);color:var(--muted)}
+
+/* à propos */
+.about-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:1rem}
+.statement{font:700 clamp(1.5rem,3vw,2.1rem)/1.2 var(--f-display);letter-spacing:-.02em}
+.statement em{font-style:normal;color:var(--accent)}
+.kv{margin:0;display:grid}
+.kv div{display:grid;grid-template-columns:7.5rem minmax(0,1fr);gap:1rem;padding:.7rem 0;border-bottom:1px solid var(--line)}
+.kv div:last-child{border-bottom:0}
+.kv dt{color:var(--muted);font-size:.88rem}
+.kv dd{margin:0;font-weight:500}
+.kv dd .sub{display:block;font-weight:400;font-size:.88rem;color:var(--muted)}
+
+/* compétences */
+.viz{width:100%;max-width:11rem;height:auto;color:var(--accent);margin-bottom:.4rem}
+.core{gap:.7rem}
+.core h4{font-size:1.25rem}
+.core .chips{margin-top:auto;padding-top:.6rem}
+.core .lvl{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.field{padding:.5rem 1.5rem}
+.frow{display:grid;grid-template-columns:minmax(0,12rem) minmax(0,1fr) minmax(0,1.2fr);gap:1.25rem;align-items:center;padding:1.1rem 0;border-bottom:1px solid var(--line)}
+.frow:last-child{border-bottom:0}
+.frow .row h4{font-size:1.05rem}
+
+/* parcours */
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2.5rem}
+.vt{list-style:none;padding:0 0 0 1.6rem;margin:0;border-left:2px solid var(--line);display:flex;flex-direction:column;gap:1.25rem}
+.vt li{position:relative}
+.vt li::before{content:"";position:absolute;left:-2.1rem;top:.35rem;width:.85rem;height:.85rem;border-radius:50%;background:var(--bg);border:3px solid var(--accent)}
+.vt .when{font-weight:600;font-size:.82rem;color:var(--accent);display:block;margin-bottom:.15rem}
+.vt h4{font-size:1.1rem}
+.vt .where{color:var(--muted);font-size:.92rem}
+.vt ul{padding-left:1.1rem;margin:.5rem 0 0;font-size:.95rem}
+.vt .now{background:var(--t2);border-radius:1.25rem;padding:1.1rem 1.25rem}
+.vt .now::before{background:var(--accent)}
+.vt .todo{opacity:.75}
+.vt .todo::before{border-style:dashed}
+
+/* projets */
+.proj{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:1rem}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;margin:.4rem 0}
+.node{display:inline-flex;align-items:center;gap:.4rem;background:var(--surface);border-radius:.9rem;padding:.45rem .8rem;font-weight:600;font-size:.88rem}
+.arrow{color:var(--accent);font-weight:700}
+.slim{flex-direction:row;align-items:center;gap:1rem;box-shadow:inset 0 0 0 2px var(--line);background:transparent}
+.slim .icon{background:var(--t1)}
+.meta{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;font-size:.8rem;color:var(--muted)}
+.meta .tag{background:var(--surface);color:var(--ink)}
+
+/* certifications */
+.cert{flex-direction:row;align-items:center;gap:1.25rem;flex-wrap:wrap;box-shadow:inset 0 0 0 2px var(--line);background:var(--surface)}
+.cert .icon{background:var(--t5)}
+.cert div:nth-child(2){flex:1;min-width:14rem}
+
+/* veille */
+.veille-head{align-items:center;text-align:center;gap:.5rem;padding:2rem 1.5rem}
+.chosen-tag{font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;background:var(--accent);color:var(--accent-ink);padding:.2rem .85rem;border-radius:999px}
+.veille-head h3{font-size:clamp(1.3rem,3vw,1.8rem)}
+.veille-head p{color:var(--muted)}
+.problem{align-items:center;text-align:center;padding:1.75rem;margin-top:1rem}
+.problem-label{font-weight:700;font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent)}
+.problem p{font:600 1.15rem/1.5 var(--f-display);max-width:46rem}
+.v-intro{max-width:44rem;margin:1.25rem auto 0;text-align:center;color:var(--muted)}
+.pistes{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:1rem}
+.chosen .tag{position:absolute;top:1.2rem;right:1.2rem}
+.chosen h4{font-size:1.35rem;padding-right:4.5rem}
+.src-list{margin-top:auto;padding-top:.7rem;font-size:.8rem;font-weight:500;color:var(--muted);border-top:1px solid var(--line)}
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1.5rem;list-style:none;padding:0}
+.step{display:flex;flex-direction:column;gap:.5rem}
+.step .top{display:flex;align-items:center;gap:.6rem}
+.step .letter{width:3rem;height:3rem;flex:none;border-radius:50%;display:grid;place-items:center;font:800 1.4rem var(--f-display);background:var(--accent);color:var(--accent-ink)}
+.step:not(:last-child) .top::after{content:"";flex:1;height:2px;background:repeating-linear-gradient(90deg,var(--accent) 0 6px,transparent 6px 12px);opacity:.6}
+.step h4{font-size:1.1rem}
+.step p{font-size:.92rem;color:var(--muted)}
+.tools{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem}
+.tool{display:flex;align-items:center;gap:1rem;background:var(--surface);border-radius:1.25rem;padding:1rem 1.2rem;min-width:0}
+.tool .icon{width:3rem;height:3rem;color:var(--ink)}
+.tool h4{font-size:1rem}
+.tool p{font-size:.88rem;color:var(--muted)}
+.table-note{color:var(--muted);font-size:.9rem;margin-bottom:.8rem}
+.table-note.small{margin:.8rem 0 0;font-size:.82rem}
+.table-box{overflow-x:auto;padding:0}
+table.suivi{border-collapse:collapse;width:100%;min-width:60rem;font-size:.9rem}
+.suivi th,.suivi td{text-align:left;padding:.85rem 1rem;border-bottom:1px solid var(--line);vertical-align:top}
+.suivi th{font-weight:600;font-size:.8rem;background:var(--t1);white-space:nowrap}
+.suivi tr:last-child td{border-bottom:0}
+.suivi .org{font-weight:700}
+.suivi .empty-cell{color:var(--muted);text-align:center;vertical-align:middle}
+
+/* E5 / E6 */
+.epreuve{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:2rem;align-items:center}
+.epreuve h4{font-size:1.4rem}
+.check{list-style:none;padding:0;margin:0;display:grid;gap:.6rem}
+.check li{background:var(--surface);border-radius:1rem;font-weight:500;font-size:.95rem}
+.check label{display:flex;align-items:center;gap:.8rem;padding:.7rem 1rem;cursor:pointer;border-radius:1rem;transition:transform .15s}
+.check label:hover{transform:translateX(4px)}
+.check input{position:absolute;opacity:0;width:1px;height:1px}
+.box{width:1.25rem;height:1.25rem;flex:none;border:2px solid var(--accent);border-radius:.4rem;display:grid;place-items:center;transition:background .15s}
+.check input:checked+.box{background:var(--accent)}
+.check input:checked+.box::after{content:"";width:.3rem;height:.6rem;border:solid var(--accent-ink);border-width:0 2px 2px 0;transform:rotate(45deg) translate(-1px,-1px)}
+.check input:checked~span{text-decoration:line-through;opacity:.6}
+.check input:focus-visible+.box{outline:3px solid var(--accent);outline-offset:2px}
+
+.progress{font-size:.85rem;font-weight:600;color:var(--muted)}
+
+/* contact */
+.contact-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:1rem;align-items:stretch}
+.clist{padding:.4rem 1.5rem}
+.crow{display:flex;align-items:center;gap:1rem;padding:1.1rem 0;border-bottom:1px solid var(--line)}
+.crow:last-child{border-bottom:0}
+.crow small{display:block;font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+.crow .v{font-weight:600;overflow-wrap:anywhere;user-select:all}
+.avail{background:var(--accent);color:var(--accent-ink);padding:2rem;justify-content:center;gap:.9rem}
+.avail h4{font-size:1.7rem}
+.avail p{font-size:1.02rem}
+.avail .btn{align-self:flex-start;background:var(--surface);color:var(--ink)}
+.avail .wm{opacity:.18;width:12rem;height:12rem}
+
+.theme{order:1;width:2.6rem;height:2.6rem;border:0;border-radius:50%;background:var(--bg);color:var(--ink);cursor:pointer;display:grid;place-items:center;transition:transform .3s,background .2s}
+.theme:hover{background:var(--t1);transform:rotate(25deg)}
+.copy{margin-left:auto;display:inline-flex;align-items:center;gap:.4rem;font:600 .82rem var(--f-body);border:0;border-radius:999px;padding:.45rem .95rem;background:var(--t1);color:var(--ink);cursor:pointer;transition:background .2s,color .2s,transform .15s}
+.copy:hover{background:var(--accent);color:var(--accent-ink)}
+.copy:active{transform:scale(.95)}
+.crow>div{min-width:0}
+.toast{position:fixed;left:50%;bottom:calc(1.5rem + env(safe-area-inset-bottom,0px));transform:translate(-50%,2rem);background:var(--ink);color:var(--bg);padding:.7rem 1.2rem;border-radius:999px;font-weight:600;font-size:.9rem;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:70;max-width:calc(100% - 2rem);text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media (prefers-reduced-motion:reduce){.btn::after{display:none}.btn:hover,.btn:active,.btn:hover .ic,.chip:hover,.core:hover,.tool:hover,.pistes>.tile:hover,.slim:hover,.theme:hover,.check label:hover{transform:none}}
+footer{padding-block:2.5rem;text-align:center;color:var(--muted);font-size:.9rem}
+.to-top{position:fixed;right:1.1rem;bottom:calc(1.1rem + env(safe-area-inset-bottom,0px));z-index:60;width:2.9rem;height:2.9rem;border:0;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;cursor:pointer;box-shadow:0 8px 24px rgba(26,29,58,.25);opacity:0;transform:translateY(1rem);pointer-events:none;transition:opacity .25s,transform .25s}
+.to-top.show{opacity:1;transform:none;pointer-events:auto}
+
+@media (max-width:62rem){.menu a{padding:.4rem .5rem}.frow{grid-template-columns:minmax(0,1fr) minmax(0,1.5fr)}.frow .chips{grid-column:1/-1}}
+@media (max-width:54rem){
+  .navbar{width:calc(100% - 1.5rem);border-radius:1.5rem}
+  .nav-in{flex-wrap:wrap;padding:.45rem .5rem .45rem 1.1rem}
+  .burger{display:flex;order:2;margin-left:0}
+  .theme{margin-left:auto}
+  .menu{order:3}
+  .menu{display:flex;flex-direction:column;align-items:stretch;width:100%;max-height:0;overflow:hidden;transition:max-height .35s ease;gap:.15rem}
+  .menu.open{max-height:30rem;padding-bottom:.5rem}
+  .menu a{padding:.6rem .8rem;border-radius:.9rem}
+  .menu a.nav-btn{text-align:center}
+  .hero{padding-block:1.5rem .5rem}
+  .hero-main{grid-column:span 6;padding:1.75rem}
+  .hero-id{grid-column:span 6}
+  .about-grid,.g3,.two,.proj,.pistes,.epreuve,.contact-layout{grid-template-columns:1fr}
+  .steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .step .top::after{display:none}
+  section.block{padding-block:2.5rem}
+}
+@media (max-width:34rem){
+  .statsbar{flex-direction:column}
+  .stat+.stat{border-left:0;border-top:1px solid var(--line)}
+  .steps,.tools{grid-template-columns:1fr}
+  .frow{grid-template-columns:1fr}
+  .kv div{grid-template-columns:1fr;gap:.1rem}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}.btn,.to-top,.menu,.burger span{transition:none}.btn:hover{transform:none}
+  .track{animation:none;width:auto;flex-wrap:wrap;justify-content:center;padding-inline:1rem;gap:1rem 2rem}
+  .track .dup{display:none}
+}
+
+/* veille : cartes et page complète */
+[hidden]{display:none!important}
+.period-card{text-decoration:none;transition:transform .3s,box-shadow .3s}
+.period-card:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(26,29,58,.16)}
+.v-more{display:flex;justify-content:center;margin-top:1.75rem}
+.vpage{max-width:56rem;padding-block:2.5rem 1rem;overflow-wrap:anywhere}
+.vpage>.btn{margin-bottom:1.75rem}
+.vpage .title-wrap{margin-bottom:.6rem}
+.vpage .steps{grid-template-columns:repeat(2,minmax(0,1fr));margin-block:0 1.25rem}
+.vpage .step .top::after{display:none}
+.v-lead{color:var(--muted);margin-bottom:1rem}
+.axes{padding-left:1.1rem}
+.jump{margin-top:2rem}
+.jump a{text-decoration:none;box-shadow:inset 0 0 0 1px var(--line);padding:.4rem .9rem}
+.period{margin-block:3rem}
+.period-title{font-size:1.5rem;margin-bottom:.6rem;padding-top:1.5rem;border-top:2px solid var(--line)}
+.group{font-size:1.05rem;margin:1.5rem 0 .75rem;color:var(--accent)}
+.info .axis{font-size:.8rem;font-weight:600;color:var(--accent)}
+.info .util{background:var(--t3);border-radius:.9rem;padding:.6rem .85rem}
+.info .added{font-size:.8rem;color:var(--muted)}
+.analysis{margin-top:1.25rem}
+.sources{padding-left:1.1rem;font-size:.9rem;color:var(--muted)}
+@media (max-width:34rem){.vpage .steps{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.period-card:hover{transform:none}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></symbol>
+    <symbol id="i-network" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="5"/><rect x="3" y="16" width="6" height="5"/><rect x="15" y="16" width="6" height="5"/><path d="M12 8v4M6 16v-4h12v4"/></symbol>
+    <symbol id="i-server" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="6" rx="1"/><rect x="3" y="14" width="18" height="6" rx="1"/><path d="M7 7h.01M7 17h.01"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></symbol>
+    <symbol id="i-headset" viewBox="0 0 24 24"><path d="M4 14v-2a8 8 0 0116 0v2"/><rect x="3" y="14" width="4" height="6" rx="1"/><rect x="17" y="14" width="4" height="6" rx="1"/></symbol>
+    <symbol id="i-code" viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></symbol>
+    <symbol id="i-tool" viewBox="0 0 24 24"><path d="M14 6a4 4 0 005 5l-9 9a2 2 0 01-3-3l9-9z"/></symbol>
+    <symbol id="i-award" viewBox="0 0 24 24"><circle cx="12" cy="9" r="6"/><path d="M8.5 14L7 21l5-3 5 3-1.5-7"/></symbol>
+    <symbol id="i-cap" viewBox="0 0 24 24"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2 9 2 12 0v-5"/></symbol>
+    <symbol id="i-briefcase" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5h6v2M3 13h18"/></symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 6h6l2 2h10v11H3z"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-5-5"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-6 7-11a7 7 0 10-14 0c0 5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+    <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 13h6M9 17h6"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
+    <symbol id="i-rss" viewBox="0 0 24 24"><path d="M5 5a14 14 0 0114 14M5 11a8 8 0 018 8"/><circle cx="6" cy="18" r="1.5"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 1112 0v5l2 2H4z"/><path d="M10 21h4"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></symbol>
+    <symbol id="i-news" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="1"/><path d="M8 9h8M8 13h8M8 17h5"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/></symbol>
+    <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M7 18a4 4 0 01-.5-8 5.5 5.5 0 0110.5 1A3.5 3.5 0 0117 18z"/></symbol>
+    <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 005.5 0l3-3a4 4 0 00-5.5-5.5l-1 1M14 10a4 4 0 00-5.5 0l-3 3a4 4 0 005.5 5.5l1-1"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 019.5 4a8 8 0 1010.5 10.5z"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></symbol>
+  </defs>
+</svg>
+
+<nav class="navbar" aria-label="Navigation principale">
+  <div class="nav-in">
+    <a href="#home" class="logo">Maxime<span>.</span>L</a>
+    <button class="theme" id="theme" type="button" aria-label="Changer de thème clair ou sombre"><svg class="ic" aria-hidden="true"><use href="#i-moon"/></svg></button>
+    <button class="burger" id="burger" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button>
+    <ul class="menu" id="menu">
+      <li><a href="#home" class="active">Accueil</a></li>
+      <li><a href="#about">À propos</a></li>
+      <li><a href="#certifications">Certifications</a></li>
+      <li><a href="#parcours">Parcours</a></li>
+      <li><a href="#projects">Projets</a></li>
+      <li><a href="#veille">Veille</a></li>
+      <li><a href="#e5">E5</a></li>
+      <li><a href="#e6">E6</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="https://www.linkedin.com/in/maxime-lamand%C3%A9-afe452/" target="_blank" rel="noopener noreferrer" class="nav-btn">LinkedIn</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main id="portfolio">
+  <section id="home" class="hero">
+    <div class="container bento">
+      <div class="tile c0 hero-main">
+        <span class="hello">Bienvenue sur mon portfolio</span>
+        <h1><em>Maxime</em> LAMANDE</h1>
+        <p class="hero-subtitle">Étudiant en BTS SIO - option SISR</p>
+        <p class="hero-desc">Je m'intéresse aux systèmes, aux réseaux et à la sécurité des infrastructures.</p>
+        <div class="hero-buttons">
+          <a href="#about" class="btn btn-solid"><svg class="ic"><use href="#i-user"/></svg>Découvrir mon profil</a>
+          <a href="https://www.linkedin.com/in/maxime-lamand%C3%A9-afe452/" target="_blank" rel="noopener noreferrer" class="btn btn-line"><svg class="ic"><use href="#i-link"/></svg>LinkedIn</a>
+          <a href="#contact" class="btn btn-line"><svg class="ic"><use href="#i-mail"/></svg>Me contacter</a>
+          <a href="#e5" class="btn c5"><svg class="ic"><use href="#i-file"/></svg>Accès E5</a>
+          <a href="#e6" class="btn c3"><svg class="ic"><use href="#i-lock"/></svg>Accès E6</a>
+        </div>
+      </div>
+      <div class="tile hero-id">
+        <div class="avatar" aria-hidden="true">ML</div>
+        <h3>Maxime Lamande</h3>
+        <p>Alternant avant-vente en informatique industrielle chez ADM21</p>
+        <span class="live"><i></i>En alternance</span>
+        <svg class="ic wm" aria-hidden="true"><use href="#i-network"/></svg>
+      </div>
+      <div class="tile c0 statsbar">
+        <div class="stat"><b>2</b><span>années de BTS SIO</span></div>
+        <div class="stat"><b>1</b><span>alternance en cours<br>chez ADM21</span></div>
+        <div class="stat"><b>3</b><span>axes du BTS SISR :<br>réseaux, systèmes, sécurité</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="marquee-wrap" aria-hidden="true">
+    <div class="marquee"><div class="track">
+      <span>Réseaux</span><span>Systèmes</span><span>Sécurité</span><span>NAS</span><span>VPN</span><span>Sauvegardes</span><span>Windows</span><span>Avant-vente</span>
+      <span class="dup">Réseaux</span><span class="dup">Systèmes</span><span class="dup">Sécurité</span><span class="dup">NAS</span><span class="dup">VPN</span><span class="dup">Sauvegardes</span><span class="dup">Windows</span><span class="dup">Avant-vente</span>
+    </div></div>
+  </div>
+
+  <section id="about" class="block"><div class="container">
+    <div class="title-wrap"><span class="icon"><svg class="ic"><use href="#i-user"/></svg></span><h2 class="section-title">À propos</h2></div>
+    <div class="about-grid">
+      <div class="tile c1" style="justify-content:center;gap:1.1rem">
+        <p class="statement">Rigueur, autonomie et <em>sens du service</em>.</p>
+        <p>Étudiant en BTS SIO option SISR (Solutions d'Infrastructure, Systèmes et Réseaux). Je suis en alternance chez ADM21, à Saint-Michel-sur-Orge.</p>
+        <div class="chips"><span class="chip">Rigoureux et organisé</span><span class="chip">Autonome</span><span class="chip">Esprit d'équipe</span><span class="chip">Curieux</span></div>
+        <svg class="ic wm" aria-hidden="true"><use href="#i-user"/></svg>
+      </div>
+      <div class="tile c0" style="padding-block:.9rem">
+        <dl class="kv">
+          <div><dt>Formation</dt><dd>BTS SIO SISR</dd></div>
+          <div><dt>École</dt><dd>CFA ITIS<span class="sub">Évry-Courcouronnes</span></dd></div>
+          <div><dt>Alternance</dt><dd>ADM21<span class="sub">Saint-Michel-sur-Orge</span></dd></div>
+        </dl>
+      </div>
+    </div>
+
+    <h3 class="v-h"><svg class="ic"><use href="#i-layers"/></svg>Compétences techniques <small>Le cœur du BTS SISR</small></h3>
+    <div class="grid g3">
+      <div class="tile c1 core">
+        <svg class="viz" viewBox="0 0 160 60" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M80 15v13M80 28H30v16M80 28v16M80 28h50v16"/><rect x="66" y="3" width="28" height="13" rx="4" fill="currentColor" fill-opacity=".2"/><rect x="16" y="44" width="28" height="13" rx="4"/><rect x="66" y="44" width="28" height="13" rx="4"/><rect x="116" y="44" width="28" height="13" rx="4"/></g></svg>
+        <h4>Réseaux</h4>
+        <p class="desc">Faire circuler les données entre les postes, les serveurs et Internet.</p>
+        <div class="chips"><span class="chip">Modèle OSI · TCP/IP</span><span class="chip">Adressage IP / sous-réseaux</span><span class="chip">VLAN · routage</span><span class="chip">DHCP · DNS</span><span class="chip">Cisco Packet Tracer</span></div>
+      </div>
+      <div class="tile c4 core">
+        <svg class="viz" viewBox="0 0 160 60" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="20" y="4" width="120" height="14" rx="4" fill="currentColor" fill-opacity=".2"/><rect x="20" y="23" width="120" height="14" rx="4"/><rect x="20" y="42" width="120" height="14" rx="4"/><path d="M32 11h.01M32 30h.01M32 49h.01M110 11h20M110 30h20M110 49h20"/></g></svg>
+        <h4>Systèmes</h4>
+        <p class="desc">Installer, administrer et maintenir les serveurs et les postes.</p>
+        <div class="chips"><span class="chip">Windows Server</span><span class="chip">Active Directory</span><span class="chip">Linux</span><span class="chip">Virtualisation</span></div>
+      </div>
+      <div class="tile c2 core">
+        <svg class="viz" viewBox="0 0 160 60" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M80 3l24 9v14c0 13-10 22-24 28-14-6-24-15-24-28V12z" fill="currentColor" fill-opacity=".2"/><path d="M69 28l8 8 14-15"/><path d="M20 20h20M20 34h28M120 20h20M112 34h28"/></g></svg>
+        <h4>Sécurité</h4>
+        <p class="desc">Protéger les données et contrôler qui a accès à quoi.</p>
+        <div class="chips"><span class="chip">Cybersécurité des services</span><span class="chip">Sauvegardes</span><span class="chip">Gestion des accès</span></div>
+      </div>
+    </div>
+
+    <h3 class="v-h"><svg class="ic"><use href="#i-briefcase"/></svg>Acquis en entreprise</h3>
+    <div class="tile c0 field">
+      <div class="frow">
+        <div class="row"><span class="icon" style="background:var(--t3)"><svg class="ic"><use href="#i-headset"/></svg></span><h4>Matériel &amp; support</h4></div>
+        <p class="desc">Monter, tester et mettre en service les postes de travail.</p>
+        <div class="chips"><span class="chip" style="background:var(--t3)">Montage de PC</span><span class="chip" style="background:var(--t3)">Vérification des composants</span><span class="chip" style="background:var(--t3)">Licences Windows</span></div>
+      </div>
+      <div class="frow">
+        <div class="row"><span class="icon" style="background:var(--t5)"><svg class="ic"><use href="#i-code"/></svg></span><h4>Web</h4></div>
+        <p class="desc">Créer des outils en ligne qui simplifient le travail des équipes.</p>
+        <div class="chips"><span class="chip" style="background:var(--t5)">Création de site web</span><span class="chip" style="background:var(--t5)">Hébergement sur NAS</span></div>
+      </div>
+      <div class="frow">
+        <div class="row"><span class="icon" style="background:var(--t1)"><svg class="ic"><use href="#i-tool"/></svg></span><h4>Avant-vente</h4></div>
+        <p class="desc">Comprendre le besoin d'un client industriel et proposer la bonne solution.</p>
+        <div class="chips"><span class="chip empty" style="background:var(--t1)">À compléter</span></div>
+      </div>
+    </div>
+  </div></section>
+
+  <section id="certifications" class="block"><div class="container">
+    <div class="title-wrap"><span class="icon"><svg class="ic"><use href="#i-award"/></svg></span><h2 class="section-title">Certifications</h2></div>
+    <div class="tile cert">
+      <span class="icon"><svg class="ic"><use href="#i-award"/></svg></span>
+      <div><h4>Aucune certification pour le moment</h4><p class="empty">Section à compléter : Cisco, Microsoft, PIX… avec la date d'obtention.</p></div>
+      <div class="chips"><span class="chip c1">Cisco</span><span class="chip c4">Microsoft</span><span class="chip c3">PIX</span></div>
+    </div>
+  </div></section>
+
+  <section id="parcours" class="block"><div class="container">
+    <div class="title-wrap"><span class="icon"><svg class="ic"><use href="#i-cap"/></svg></span><h2 class="section-title">Parcours</h2></div>
+    <div class="two">
+      <div>
+        <h3 class="sub-title"><svg class="ic"><use href="#i-cap"/></svg>Formation</h3>
+        <ul class="vt">
+          <li><span class="when">2025 – 2027</span><h4>BTS SIO option SISR</h4><p class="where">CFA ITIS, Évry-Courcouronnes</p></li>
+          <li class="todo"><span class="when">Années à compléter</span><h4>Baccalauréat (série à compléter)</h4><p class="where">Lycée à compléter</p></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="sub-title"><svg class="ic"><use href="#i-briefcase"/></svg>Expériences</h3>
+        <ul class="vt">
+          <li class="now"><span class="when">Début à compléter – aujourd'hui · <span class="tag">En cours</span></span><h4>Alternant avant-vente en informatique industrielle</h4><p class="where">ADM21 · Saint-Michel-sur-Orge · Alternance</p><ul><li>Montage de produits et vérification des composants</li><li>Ajout de licences Windows</li><li>Site de gestion des produits de l'entrepôt pour une agence, intégré à un NAS (accès VPN, gestion des accès, sauvegardes)</li></ul></li>
+          <li class="todo"><span class="when">Dates à compléter</span><h4>Poste à compléter</h4><p class="where">Entreprise à compléter · Contrat</p></li>
+          <li class="todo"><span class="when">Dates à compléter</span><h4>Poste à compléter</h4><p class="where">Entreprise à compléter · Contrat</p></li>
+        </ul>
+      </div>
+    </div>
+  </div></section>
+
+  <section id="projects" class="block"><div class="container">
+    <div class="title-wrap"><span class="icon"><svg class="ic"><use href="#i-folder"/></svg></span><h2 class="section-title">Projets</h2></div>
+    <div class="proj">
+      <div class="tile c5" style="gap:.9rem;padding:2rem">
+        <div class="meta"><span class="tag">Projet en entreprise</span><span>En cours</span></div>
+        <h4 style="font-size:1.5rem">Site de gestion des produits de l'entrepôt</h4>
+        <p>Un site pour mieux suivre les produits de l'entrepôt et des montages de PC. Il sera intégré à un NAS pour que l'agence y accède sans problème, avec des droits bien définis et des sauvegardes.</p>
+        <div class="flow" aria-label="Schéma du projet">
+          <span class="node"><svg class="ic"><use href="#i-code"/></svg>Site web</span><span class="arrow">→</span>
+          <span class="node"><svg class="ic"><use href="#i-server"/></svg>NAS</span><span class="arrow">→</span>
+          <span class="node"><svg class="ic"><use href="#i-lock"/></svg>VPN</span><span class="arrow">→</span>
+          <span class="node"><svg class="ic"><use href="#i-pin"/></svg>Agence</span>
+        </div>
+        <div class="chips"><span class="chip">NAS</span><span class="chip">VPN</span><span class="chip">Sauvegardes</span><span class="chip">Gestion des accès</span></div>
+        <svg class="ic wm" aria-hidden="true"><use href="#i-server"/></svg>
+      </div>
+      <div class="grid" style="align-content:start">
+        <div class="tile slim"><span class="icon"><svg class="ic"><use href="#i-folder"/></svg></span><div><h4>Projet à venir</h4><p class="empty">Un projet réseau, système ou web.</p></div></div>
+        <div class="tile slim"><span class="icon"><svg class="ic"><use href="#i-folder"/></svg></span><div><h4>Projet à venir</h4><p class="empty">Un projet réseau, système ou web.</p></div></div>
+      </div>
+    </div>
+  </div></section>
+
+  <section id="veille" class="block"><div class="container">
+    <div class="title-wrap"><span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-search"/></svg></span><h2 class="section-title">Veille technologique</h2></div>
+    <div class="tile c1 veille-head">
+      <span class="chosen-tag">Mon sujet</span>
+      <h3>L'IA générative appliquée à l'administration système et réseau</h3>
+      <svg class="ic wm" aria-hidden="true"><use href="#i-spark"/></svg>
+    </div>
+    <div class="tile c0 problem">
+      <span class="problem-label">Problématique</span>
+      <p>Dans quelle mesure l'IA générative peut-elle aider l'administrateur systèmes et réseaux sans fragiliser la sécurité du système d'information ?</p>
+    </div>
+
+    <h3 class="v-h"><svg class="ic" aria-hidden="true"><use href="#i-target"/></svg>Ma méthode DIRE</h3>
+    <ol class="steps">
+      <li class="step"><div class="top"><span class="letter" aria-hidden="true">D</span></div><h4>Détecter</h4><p>Sujet « L'IA générative appliquée à l'administration système et réseau », avec ma problématique et mes mots-clés.</p></li>
+      <li class="step"><div class="top"><span class="letter" aria-hidden="true">I</span></div><h4>Identifier</h4><p>Cinq sources suivies toute l'année : CERT-FR / ANSSI, LeMagIT, IT-Connect, blog Microsoft et blog Google Cloud.</p></li>
+      <li class="step"><div class="top"><span class="letter" aria-hidden="true">R</span></div><h4>Recueillir</h4><p>D'abord un point mensuel fait moi-même, puis une collecte automatisée par un assistant IA (Claude) le 1er et le 15 de chaque mois.</p></li>
+      <li class="step"><div class="top"><span class="letter" aria-hidden="true">E</span></div><h4>Exploiter</h4><p>Je relis les sources, un assistant IA m'aide à reformuler les résumés en 2 à 3 lignes, puis je les valide, je les relie au métier et je donne mon avis.</p></li>
+    </ol>
+
+    <h3 class="v-h"><svg class="ic" aria-hidden="true"><use href="#i-calendar"/></svg>Mes périodes de veille</h3>
+    <div class="grid g2">
+      <a class="tile c4 period-card" href="#vp-1"><h4>Période du 1er au 15 novembre 2026</h4><p>Quinzaine où l'IA s'installe dans l'exploitation, avec la chasse aux bugs du noyau Linux et un assistant pour les administrateurs chez Red Hat. Côté sécurité : faille OpenSSH exploitée, Patch Tuesday et fuite La Poste/Maileva.</p></a>
+      <a class="tile c3 period-card" href="#vp-2"><h4>Période du 16 au 31 octobre 2026</h4><p>Quinzaine marquée par l'IA des deux côtés : outil de revue du noyau Linux, mais aussi cible et arme des attaquants. Côté sécurité : PHP2Shell, nouvelles failles Ivanti et bilan des fuites dans l'administration.</p></a>
+      <a class="tile c2 period-card" href="#vp-3"><h4>Période du 1er au 15 octobre 2026</h4><p>Quinzaine où les agents IA deviennent un enjeu de sécurité, entre nouvelles protections sous Windows et attaque automatisée d'un serveur. Côté sécurité : Patch Tuesday record, faille du VPN Ivanti et contrôleurs frigorifiques piratés.</p></a>
+      <a class="tile c5 period-card" href="#vp-4"><h4>Entrée du 30 septembre 2026</h4><p>Première entrée, rédigée par moi : cinq sources classées selon les axes de ma problématique.</p></a>
+    </div>
+    <div class="v-more"><a class="btn btn-solid" href="#veille-complete"><svg class="ic" aria-hidden="true"><use href="#i-news"/></svg>Lire la veille complète</a></div>
+  </div></section>
+
+  <section id="e5" class="block"><div class="container">
+    <div class="title-wrap"><span class="icon"><svg class="ic"><use href="#i-file"/></svg></span><h2 class="section-title">E5</h2></div>
+    <div class="tile c4 epreuve">
+      <div style="display:flex;flex-direction:column;gap:.6rem">
+        <span class="progress">Section à compléter · 0 pièce sur 4</span>
+        <h4>Production et fourniture de services informatiques</h4>
+        <p>Le projet de site, NAS, VPN et sauvegardes pourra être présenté ici.</p>
+      </div>
+      <ul class="check"><li><label><input type="checkbox" id="e5c0"><i class="box"></i><span>Contexte et besoin de l'agence</span></label></li><li><label><input type="checkbox" id="e5c1"><i class="box"></i><span>Schéma de l'architecture réseau</span></label></li><li><label><input type="checkbox" id="e5c2"><i class="box"></i><span>Étapes de mise en place avec captures</span></label></li><li><label><input type="checkbox" id="e5c3"><i class="box"></i><span>Tests et bilan</span></label></li></ul>
+      <svg class="ic wm" aria-hidden="true"><use href="#i-file"/></svg>
+    </div>
+  </div></section>
+
+  <section id="e6" class="block"><div class="container">
+    <div class="title-wrap"><span class="icon"><svg class="ic"><use href="#i-lock"/></svg></span><h2 class="section-title">E6</h2></div>
+    <div class="tile c3 epreuve">
+      <div style="display:flex;flex-direction:column;gap:.6rem">
+        <span class="progress">Section à compléter · 0 pièce sur 4</span>
+        <h4>Cybersécurité des services informatiques</h4>
+        <p>Les accès VPN, la gestion des droits et la politique de sauvegarde pourront y être détaillés.</p>
+      </div>
+      <ul class="check"><li><label><input type="checkbox" id="e6c0"><i class="box"></i><span>Risques identifiés pour l'agence</span></label></li><li><label><input type="checkbox" id="e6c1"><i class="box"></i><span>Configuration du VPN et des droits</span></label></li><li><label><input type="checkbox" id="e6c2"><i class="box"></i><span>Plan de sauvegarde</span></label></li><li><label><input type="checkbox" id="e6c3"><i class="box"></i><span>Test de restauration</span></label></li></ul>
+      <svg class="ic wm" aria-hidden="true"><use href="#i-lock"/></svg>
+    </div>
+  </div></section>
+
+  <section id="contact" class="block"><div class="container">
+    <div class="title-wrap"><span class="icon"><svg class="ic"><use href="#i-mail"/></svg></span><h2 class="section-title">Contact</h2></div>
+    <div class="contact-layout">
+      <div class="tile c0 clist">
+        <div class="crow"><span class="icon" style="background:var(--t5)"><svg class="ic"><use href="#i-pin"/></svg></span><div><small>Localisation</small><span class="v">Saint-Michel-sur-Orge</span></div></div>
+      </div>
+      <div class="tile avail">
+        <h4>Une question sur mon parcours ou mes projets ?</h4>
+        <p>Je suis en alternance chez ADM21, à Saint-Michel-sur-Orge. Contactez-moi sur LinkedIn.</p>
+        <a class="btn" href="https://www.linkedin.com/in/maxime-lamand%C3%A9-afe452/" target="_blank" rel="noopener noreferrer"><svg class="ic"><use href="#i-link"/></svg>Voir mon LinkedIn</a>
+        <svg class="ic wm" aria-hidden="true"><use href="#i-network"/></svg>
+      </div>
+    </div>
+  </div></section>
+</main>
+
+<main id="veille-complete" hidden>
+  <div class="container vpage">
+    <a class="btn" href="#veille">← Retour au portfolio</a>
+    <div class="title-wrap"><span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-search"/></svg></span><h2 class="section-title">Veille technologique &amp; cybersécurité</h2></div>
+    <p class="desc">BTS SIO · Mis à jour le 25 novembre 2026</p>
+
+    <div class="tile c0 problem">
+      <span class="problem-label">Problématique</span>
+      <p>Dans quelle mesure l'IA générative peut-elle aider l'administrateur systèmes et réseaux sans fragiliser la sécurité du système d'information ?</p>
+    </div>
+
+    <h3 class="v-h"><svg class="ic" aria-hidden="true"><use href="#i-layers"/></svg>Présentation</h3>
+    <div class="tile c1">
+      <p>Une entrée est ajoutée toutes les deux semaines depuis le 30 septembre 2026, la plus récente en haut. Chaque information sur mon thème est rattachée à un axe :</p>
+      <ul class="axes">
+        <li><em>Assistants IA pour l'exploitation</em> : scripts, automatisation, documentation.</li>
+        <li><em>Copilotes de cybersécurité</em> : investigation, détection, réponse aux incidents.</li>
+        <li><em>Risques et sécurité</em> : usage de l'IA par les attaquants, erreurs, fuites de données.</li>
+        <li><em>Supervision et détection d'anomalies</em> : observabilité, surveillance des systèmes et des agents IA.</li>
+      </ul>
+      <p>Chaque période commence par les informations sur mon thème, suivies d'un complément de trois actualités de sécurité utiles en SISR.</p>
+    </div>
+
+    <h3 class="v-h"><svg class="ic" aria-hidden="true"><use href="#i-target"/></svg>Méthode</h3>
+    <p class="v-lead">J'organise ma veille avec la méthode DIRE :</p>
+    <ol class="steps">
+      <li class="step"><div class="top"><span class="letter" aria-hidden="true">D</span></div><h4>Détecter</h4><p>Sujet « L'IA générative appliquée à l'administration système et réseau », avec ma problématique et mes mots-clés.</p></li>
+      <li class="step"><div class="top"><span class="letter" aria-hidden="true">I</span></div><h4>Identifier</h4><p>Cinq sources suivies toute l'année : CERT-FR / ANSSI, LeMagIT, IT-Connect, blog Microsoft et blog Google Cloud.</p></li>
+      <li class="step"><div class="top"><span class="letter" aria-hidden="true">R</span></div><h4>Recueillir</h4><p>D'abord un point mensuel fait moi-même, puis une collecte automatisée par un assistant IA (Claude) le 1er et le 15 de chaque mois.</p></li>
+      <li class="step"><div class="top"><span class="letter" aria-hidden="true">E</span></div><h4>Exploiter</h4><p>Je relis les sources, un assistant IA m'aide à reformuler les résumés en 2 à 3 lignes, puis je les valide, je les relie au métier et je donne mon avis.</p></li>
+    </ol>
+    <p class="v-lead">Utiliser une IA générative pour ma propre veille est une mise en pratique directe de mon thème.</p>
+    <p class="v-lead">Autre outil que j'utilise : un assistant IA (Claude), pour la collecte et la reformulation des résumés.</p>
+    <div class="tile c0" style="padding-block:.9rem">
+      <dl class="kv">
+        <div><dt>Mots-clés</dt><dd>IA générative administration système, AIOps, Copilot sécurité, agents IA, CVE critique, CERT-FR alerte, fuite de données France</dd></div>
+        <div><dt>Sources principales</dt><dd>CERT-FR / ANSSI, LeMagIT, IT-Connect, blogs Microsoft et Google Cloud. Autres sources consultées au besoin pour recouper</dd></div>
+        <div><dt>Rythme</dt><dd>Un point mensuel au départ, puis une période tous les quinze jours depuis l'automatisation</dd></div>
+        <div><dt>Tri</dt><dd>6 à 10 informations liées au sujet, résumées en 2 à 3 lignes</dd></div>
+        <div><dt>Vérification</dt><dd>Relecture des sources, avec l'aide de l'assistant IA ; une information appuyée sur une seule source est signalée comme telle</dd></div>
+        <div><dt>Diffusion</dt><dd>Ce document, intégré à mon portfolio</dd></div>
+      </dl>
+    </div>
+
+    <nav class="chips jump" aria-label="Périodes de veille">
+      <a class="chip" href="#vp-1">Période du 1er au 15 novembre 2026</a>
+      <a class="chip" href="#vp-2">Période du 16 au 31 octobre 2026</a>
+      <a class="chip" href="#vp-3">Période du 1er au 15 octobre 2026</a>
+      <a class="chip" href="#vp-4">Entrée du 30 septembre 2026</a>
+    </nav>
+
+    <section class="period" id="vp-1">
+      <h3 class="period-title">Période du 1er au 15 novembre 2026</h3>
+      <p class="v-lead">Quinzaine où l'IA s'installe dans l'exploitation, avec la chasse aux bugs du noyau Linux et un assistant pour les administrateurs chez Red Hat. Côté sécurité : faille OpenSSH exploitée, Patch Tuesday et fuite La Poste/Maileva.</p>
+      <h4 class="group">Sur mon thème : IA générative</h4>
+      <div class="grid">
+        <article class="tile c0 info">
+          <h4>1. Linux 7.4-rc1 : l'IA devient un outil de chasse aux bugs du noyau</h4>
+          <p class="axis">Axe : assistants IA pour l'exploitation</p>
+          <p>La première version de test de Linux 7.4, sortie le 1er novembre, bat un record avec près de 20 000 changements. Selon Linus Torvalds, elle contient de nombreuses corrections de problèmes repérés par des outils d'IA.</p>
+          <p class="util"><em>Utilité BTS SIO :</em> exemple direct d'IA générative au service de l'administration système, au cœur du thème de cette veille.</p>
+        </article>
+        <article class="tile c0 info">
+          <h4>2. Red Hat : l'IA au service des administrateurs (12 novembre)</h4>
+          <p class="axis">Axe : assistants IA pour l'exploitation</p><p>Un serveur MCP donne à l'assistant IA accès aux journaux, au disque et aux processus pour aider au diagnostic. Les commandes restent exécutées par des humains, et l'évaluation des mises à jour est en préversion.</p>
+          <p class="util"><em>Utilité BTS SIO :</em> l'IA aide au diagnostic, l'administrateur décide.</p>
+          <p class="added"><em>Ajouté après coup le 25 novembre 2026, à partir d'une seule source.</em></p>
+        </article>
+      </div>
+      <h4 class="group">Complément sécurité</h4>
+      <div class="grid">
+        <article class="tile c0 info">
+          <h4>3. OpenSSH : contournement d'authentification exploité (CVE-2026-123158)</h4>
+          <p>Le 5 novembre, la version 10.6p2 a corrigé un contournement d'authentification sur des systèmes Linux basés sur musl, sans PAM ou avec PAM désactivé. Le CERT-FR (CERTFR-2026-ALE-015) rappelle qu'il faut redémarrer sshd après le correctif. La CISA classe la faille comme exploitée depuis le 9 novembre.</p>
+          <p class="util"><em>Utilité BTS SIO :</em> SSH est l'outil d'administration à distance de base en SISR ; bon exemple de la différence entre installer un patch et l'appliquer réellement.</p>
+        </article>
+        <article class="tile c0 info">
+          <h4>4. Patch Tuesday de novembre : plus de 1 000 failles, un zero-day Outlook</h4>
+          <p>Le 10 novembre, Microsoft a corrigé plus de 1 090 vulnérabilités, dont une soixantaine critiques. La seule déjà exploitée touche Outlook (CVE-2026-124194) et peut faire fuiter le hash NTLMv2 de l'utilisateur. C'est aussi la dernière mise à jour de Windows 11 23H2 Enterprise et Education.</p>
+          <p class="util"><em>Utilité BTS SIO :</em> illustre la gestion des correctifs (WSUS, priorisation postes puis contrôleurs de domaine) et le cycle de vie d'un OS.</p>
+        </article>
+        <article class="tile c0 info">
+          <h4>5. La Poste / Maileva : 22 millions de personnes touchées</h4>
+          <p>La Poste a confirmé le 14 novembre le vol des noms et adresses postales de 22 millions de personnes, après une intrusion en septembre chez sa filiale Maileva. Le principal risque est l'hameçonnage ciblé.</p>
+          <p class="util"><em>Utilité BTS SIO :</em> cas typique de risque lié à un sous-traitant et des obligations RGPD de notification.</p>
+        </article>
+      </div>
+      <div class="tile c1 analysis">
+        <span class="problem-label">Mon analyse</span>
+        <p>Sur mon thème, je retiens l'annonce de Red Hat : un assistant IA peut consulter les journaux, le disque et les processus d'un serveur pour aider au diagnostic, mais les commandes restent exécutées par des humains. Je trouve cela rassurant, car une IA peut se tromper et l'administrateur doit vérifier avant d'agir.</p>
+        <p>Côté sécurité, ce qui me marque le plus, c'est la fuite chez Maileva : 22 millions de personnes touchées à cause d'un seul sous-traitant. Une entreprise peut être bien protégée et perdre quand même des données à cause de ses prestataires. La faille OpenSSH montre aussi qu'installer un correctif ne suffit pas : il faut redémarrer le service pour qu'il s'applique. Si j'étais administrateur, je commencerais par corriger les services exposés sur Internet (SSH, messagerie), puis je vérifierais quels prestataires ont accès à nos données.</p>
+      </div>
+      <h4 class="group">Sources</h4>
+      <ul class="sources">
+        <li><a href="https://www.lemagit.fr/actualites/366654664/Red-Hat-voit-lIA-comme-un-cheval-de-Troie-pour-OpenShift" target="_blank" rel="noopener noreferrer">LeMagIT — Red Hat voit l'IA comme un cheval de Troie pour OpenShift</a></li>
+        <li><a href="https://cert.cyber.gouv.fr/alerte/CERTFR-2026-ALE-015/" target="_blank" rel="noopener noreferrer">CERT-FR — Vulnérabilité dans OpenSSH (CERTFR-2026-ALE-015)</a></li>
+        <li><a href="https://armees.com/openssh-cve-2026-123158-alerte-cert-fr-musl-08112026/" target="_blank" rel="noopener noreferrer">Armees.com — OpenSSH : l'ANSSI alerte sur un contournement d'authentification</a></li>
+        <li><a href="https://cvebrief.com/archive/2026/11/12/" target="_blank" rel="noopener noreferrer">CVE Brief — 12 novembre 2026</a></li>
+        <li><a href="https://www.darkreading.com/vulnerabilities-threats/november-patch-tuesday-cornucopia-cves" target="_blank" rel="noopener noreferrer">Dark Reading — November Patch Tuesday</a></li>
+        <li><a href="https://www.it-connect.tech/patch-tuesday-november-2026-microsoft-fixes-1093-vulnerabilities-including-an-exploited-outlook-zero-day/" target="_blank" rel="noopener noreferrer">IT-Connect — Patch Tuesday November 2026</a></li>
+        <li><a href="https://www.windowsmode.com/windows-11-10-november-2026-patch-tuesday/" target="_blank" rel="noopener noreferrer">WindowsMode — Windows 11/10 November 2026 Patch Tuesday</a></li>
+        <li><a href="https://europe-business-news.com/15/11/2026/cyberattaque-la-poste-maileva-22-millions-donnees-volees/" target="_blank" rel="noopener noreferrer">Europe Business News — Cyberattaque La Poste : 22 millions de données volées</a></li>
+        <li><a href="https://econostrum.info/cyberattaque-massive-filiale-la-poste/" target="_blank" rel="noopener noreferrer">Econostrum — Une filiale de La Poste laisse fuiter 22 millions de coordonnées</a></li>
+        <li><a href="https://www.buzzarena.com/?p=4567143" target="_blank" rel="noopener noreferrer">BuzzArena — Linux 7.4 bat un record</a></li>
+      </ul>
+    </section>
+
+    <section class="period" id="vp-2">
+      <h3 class="period-title">Période du 16 au 31 octobre 2026</h3>
+      <p class="v-lead">Quinzaine marquée par l'IA des deux côtés : outil de revue du noyau Linux, mais aussi cible et arme des attaquants. Côté sécurité : PHP2Shell, nouvelles failles Ivanti et bilan des fuites dans l'administration.</p>
+      <h4 class="group">Sur mon thème : IA générative</h4>
+      <div class="grid">
+        <article class="tile c0 info">
+          <h4>1. L'IA, nouvelle cible et nouvel outil des attaquants</h4>
+          <p class="axis">Axe : risques et sécurité</p>
+          <p>Fin octobre, une version piégée de la plateforme d'agents IA LiteLLM, publiée sur PyPI, volait les clés cloud, SSH et d'API. Selon Foresiet, un groupe lié à la Chine a aussi utilisé des agents IA coordonnés pour viser plus de 200 organisations, dont des ministères européens.</p>
+          <p class="util"><em>Utilité BTS SIO :</em> au cœur du thème de cette veille : les outils IA ajoutés au SI deviennent une surface d'attaque, et l'IA accélère les attaques elles-mêmes.</p>
+        </article>
+        <article class="tile c0 info">
+          <h4>2. Linux 7.3 : record de correctifs, poussé par la revue de code par IA</h4>
+          <p class="axis">Axe : assistants IA pour l'exploitation</p>
+          <p>Publié le 18 octobre, Linux 7.3 établit un record avec 18 765 commits et 3 021 développeurs. Dès août, Linus Torvalds parlait d'une « nouvelle normalité » : de nombreux correctifs issus en grande partie de la revue de code par IA. Certains mainteneurs se disent submergés.</p>
+          <p class="util"><em>Utilité BTS SIO :</em> exemple direct d'IA générative au service des systèmes, avec sa limite : plus de bugs détectés, mais plus de travail de tri pour les humains.</p>
+        </article>
+      </div>
+      <h4 class="group">Complément sécurité</h4>
+      <div class="grid">
+        <article class="tile c0 info">
+          <h4>3. PHP2Shell : deux failles critiques de PHP exploitées (CVE-2026-109618 et CVE-2026-109619)</h4>
+          <p>Le 21 octobre, PHP a corrigé en urgence deux failles d'exécution de code à distance (CVE-2026-109618 et CVE-2026-109619). Le CERT-FR (CERTFR-2026-ALE-014) a signalé le 26 octobre des tentatives d'exploitation. Il faut passer au minimum en 8.2.35, 8.3.36, 8.4.27 ou 8.5.12, les versions 5.x à 8.1 n'étant plus supportées.</p>
+          <p class="util"><em>Utilité BTS SIO :</em> PHP fait tourner la majorité des sites web ; l'alerte rappelle l'importance de connaître les versions déployées et de migrer hors des branches non supportées.</p>
+        </article>
+        <article class="tile c0 info">
+          <h4>4. Ivanti Connect Secure : deux nouvelles failles exploitées</h4>
+          <p>Le 29 octobre, Ivanti a signalé deux nouvelles failles (CVE-2026-111357 et CVE-2026-118527) sur son VPN Connect Secure : un attaquant authentifié peut élever ses privilèges et déposer un fichier. En cas de compromission, le CERT-FR demande de considérer les secrets de l'équipement comme compromis.</p>
+          <p class="util"><em>Utilité BTS SIO :</em> les VPN d'accès distant sont une cible prioritaire ; bon exemple de procédure de réponse à incident (isoler, conserver les preuves, renouveler les secrets).</p>
+        </article>
+        <article class="tile c0 info">
+          <h4>5. Fuites de données dans l'administration : le bilan d'octobre de l'ANSSI</h4>
+          <p>L'ANSSI recense 64 nouvelles violations de données depuis le 30 septembre, dont une sur un portail de bibliothèque du ministère des Affaires étrangères. Parmi les causes récurrentes : absence de MFA, sous-traitants compromis, infostealers, failles IDOR et erreurs de configuration.</p>
+          <p class="util"><em>Utilité BTS SIO :</em> liste concrète des erreurs à éviter, réutilisable pour justifier des choix de sécurité dans un projet ou en entretien.</p>
+        </article>
+      </div>
+      <div class="tile c1 analysis">
+        <span class="problem-label">Mon analyse</span>
+        <p>Cette période montre bien les deux côtés de l'IA. D'un côté, elle aide à trouver des bugs dans le noyau Linux, ce qui rejoint directement mon thème. De l'autre, les outils IA deviennent eux-mêmes des cibles (LiteLLM) et les attaquants s'en servent pour aller plus vite. Pour moi, l'IA est une aide pour l'administrateur, mais elle ajoute de nouveaux risques : il faut contrôler les outils qu'on installe et garder une vérification humaine. PHP2Shell rappelle aussi l'importance de ne pas laisser tourner des versions qui ne sont plus supportées.</p>
+      </div>
+      <h4 class="group">Sources</h4>
+      <ul class="sources">
+        <li><a href="https://cert.cyber.gouv.fr/alerte/CERTFR-2026-ALE-014/" target="_blank" rel="noopener noreferrer">CERT-FR — Multiples vulnérabilités dans PHP (CERTFR-2026-ALE-014)</a></li>
+        <li><a href="https://bleepingcomputer.com/news/security/php2shell-security-flaws-now-sucessfully-exploited-in-the-wild" target="_blank" rel="noopener noreferrer">BleepingComputer — PHP2Shell flaws now exploited in the wild</a></li>
+        <li><a href="https://cert.cyber.gouv.fr/alerte/CERTFR-2026-ALE-013/" target="_blank" rel="noopener noreferrer">CERT-FR — Multiples vulnérabilités dans Ivanti Connect Secure (CERTFR-2026-ALE-013)</a></li>
+        <li><a href="https://foresiet.com/blog/cyber-attacks-october-2026/" target="_blank" rel="noopener noreferrer">Foresiet — Cyber Attacks October 2026</a></li>
+        <li><a href="https://www.it-connect.fr/reactiv-anssi-point-situation-fuites-donnees-caf-france-travail/" target="_blank" rel="noopener noreferrer">IT-Connect — CAF, France Travail, OFB : les fuites de données d'octobre 2026</a></li>
+        <li><a href="https://www.it-connect.fr/noyau-linux-7-3-record-historique-de-commits/" target="_blank" rel="noopener noreferrer">IT-Connect — Linux 7.3 : record historique de commits</a></li>
+      </ul>
+    </section>
+
+    <section class="period" id="vp-3">
+      <h3 class="period-title">Période du 1er au 15 octobre 2026</h3>
+      <p class="v-lead">Quinzaine où les agents IA deviennent un enjeu de sécurité, entre nouvelles protections sous Windows et attaque automatisée d'un serveur. Côté sécurité : Patch Tuesday record, faille du VPN Ivanti et contrôleurs frigorifiques piratés.</p>
+      <h4 class="group">Sur mon thème : IA générative</h4>
+      <div class="grid">
+        <article class="tile c0 info">
+          <h4>1. Windows encadre les agents IA (7 octobre)</h4>
+          <p class="axis">Axe : risques et sécurité</p><p>Microsoft annonce la disponibilité générale des Execution Containers, qui limitent les fichiers et le réseau accessibles à un agent IA. La gestion par Intune est seulement annoncée comme à venir.</p>
+          <p class="util"><em>Utilité BTS SIO :</em> appliquer le moindre privilège aux agents installés sur les postes.</p>
+          <p class="added"><em>Ajouté après coup le 25 novembre 2026, à partir d'une seule source.</em></p>
+        </article>
+        <article class="tile c0 info">
+          <h4>2. Des agents IA prennent le contrôle d'un serveur (7 octobre)</h4>
+          <p class="axis">Axe : risques et sécurité</p><p>Via une fonction exposée sans authentification, un attaquant obtient le contrôle complet d'un serveur en moins de 24 heures. ReliaQuest estime que des agents IA ont mené une grande partie de l'attaque, sans pouvoir préciser le modèle ni le degré d'intervention humaine.</p>
+          <p class="util"><em>Utilité BTS SIO :</em> ne jamais exposer une interface d'administration sans authentification.</p>
+          <p class="added"><em>Ajouté après coup le 25 novembre 2026, à partir d'une seule source.</em></p>
+        </article>
+      </div>
+      <h4 class="group">Complément sécurité</h4>
+      <div class="grid">
+        <article class="tile c0 info">
+          <h4>3. Patch Tuesday d'octobre : record de 1 407 failles et plusieurs fins de support</h4>
+          <p>Le 13 octobre, Microsoft a corrigé un record de 1 407 vulnérabilités, dont 69 critiques et trois zero-days. C'est aussi la fin des mises à jour pour Windows 11 24H2 Home/Pro, Windows Server 2012/2012 R2 et Exchange 2016/2019.</p>
+          <p class="util"><em>Utilité BTS SIO :</em> bon cas pour parler de priorisation des correctifs et de gestion du cycle de vie du parc (serveurs en fin de support à migrer).</p>
+        </article>
+        <article class="tile c0 info">
+          <h4>4. Ivanti Connect Secure : zero-day exploité sur le VPN (CVE-2026-104935)</h4>
+          <p>Le 14 octobre, le CERT-FR (CERTFR-2026-ALE-013) a alerté sur une faille du VPN Ivanti Connect Secure (CVE-2026-104935), exploitée avant le correctif et permettant l'exécution de code à distance. Il recommande d'isoler l'équipement et de chercher des traces de compromission avant la mise à jour.</p>
+          <p class="util"><em>Utilité BTS SIO :</em> les équipements exposés sur Internet (VPN, pare-feu) sont la première porte d'entrée des attaquants ; leur mise à jour est une priorité absolue.</p>
+        </article>
+        <article class="tile c0 info">
+          <h4>5. Des contrôleurs de réfrigération de supermarchés piratés</h4>
+          <p>Le 12 octobre, le CERT-FR a alerté sur le piratage de contrôleurs d'installations frigorifiques dont l'interface de gestion était exposée sur Internet. Selon Foresiet, environ 700 supermarchés français ont été touchés les 11 et 12 octobre.</p>
+          <p class="util"><em>Utilité BTS SIO :</em> montre que l'informatique industrielle et les objets connectés sont aussi visés ; une interface d'administration ne doit jamais être directement accessible depuis Internet.</p>
+        </article>
+      </div>
+      <div class="tile c1 analysis">
+        <span class="problem-label">Mon analyse</span>
+        <p>Ce qui m'a le plus marqué, c'est l'attaque décrite par ReliaQuest : un serveur pris en moins de 24 heures, avec des agents IA qui auraient mené une grande partie de l'attaque. Pour moi, l'IA est à la fois une aide et un danger pour l'administrateur. Il faut donc contrôler ce que les agents IA ont le droit de faire, comme le proposent les nouvelles protections de Windows. Si j'étais administrateur, je commencerais par les limiter en leur donnant seulement les droits nécessaires. Je fais le lien avec mon projet de NAS et de VPN chez ADM21, où je dois protéger les accès à distance de l'agence.</p>
+      </div>
+      <h4 class="group">Sources</h4>
+      <ul class="sources">
+        <li><a href="https://blogs.windows.com/windowsdeveloper/2026/10/07/microsoft-execution-containers-policy-driven-containment-for-ai-agents/" target="_blank" rel="noopener noreferrer">Microsoft Windows Developer Blog — Execution Containers</a></li>
+        <li><a href="https://reliaquest.com/blog/threat-spotlight-how-ai-agents-turned-one-exposed-endpoint-into-a-server-takeover" target="_blank" rel="noopener noreferrer">ReliaQuest — How AI Agents Turned One Exposed Endpoint into a Server Takeover</a></li>
+        <li><a href="https://www.it-connect.fr/patch-tuesday-octobre-2026-recapitulatif/" target="_blank" rel="noopener noreferrer">IT-Connect — Patch Tuesday octobre 2026 : récapitulatif</a></li>
+        <li><a href="https://cert.cyber.gouv.fr/alerte/CERTFR-2026-ALE-013/" target="_blank" rel="noopener noreferrer">CERT-FR — Multiples vulnérabilités dans Ivanti Connect Secure (CERTFR-2026-ALE-013)</a></li>
+        <li><a href="https://cert.cyber.gouv.fr/alerte/CERTFR-2026-ALE-012/" target="_blank" rel="noopener noreferrer">CERT-FR — Alertes de sécurité (CERTFR-2026-ALE-012, contrôleurs de réfrigération)</a></li>
+        <li><a href="https://foresiet.com/blog/cyber-attacks-october-2026/" target="_blank" rel="noopener noreferrer">Foresiet — Cyber Attacks October 2026</a></li>
+      </ul>
+    </section>
+
+    <section class="period" id="vp-4">
+      <h3 class="period-title">Entrée du 30 septembre 2026</h3>
+      <p class="v-lead">Première entrée, rédigée par moi : cinq sources classées selon les axes de ma problématique.</p>
+      
+      <div class="grid">
+        <article class="tile c0 info">
+          <h4>Source 1 : <a href="https://redmondmag.com/articles/2026/05/26/powershell-meets-practical-ai.aspx" target="_blank" rel="noopener noreferrer">Redmond Magazine, 26 mai 2026 : « PowerShell Meets Practical AI »</a></h4>
+          <p class="axis">Axe : assistants IA pour l'exploitation</p><p>Les assistants IA (ex. GitHub Copilot) font gagner du temps sur les tâches répétitives : scripts, tests, documentation, nettoyage de vieux scripts. Mais le code généré peut être faux : paramètres inventés, erreurs mal gérées, syntaxe obsolète. L'administrateur doit toujours relire avant la mise en production.</p>
+        </article>
+        <article class="tile c0 info">
+          <h4>Source 2 : <a href="https://learn.microsoft.com/fr-fr/copilot/security/whats-new-copilot-security" target="_blank" rel="noopener noreferrer">Microsoft, Nouveautés de Security Copilot (mise à jour avril 2026)</a></h4>
+          <p class="axis">Axe : copilotes de cybersécurité</p><p>Microsoft multiplie les agents IA de sécurité. En avril 2026, un agent d'analyste de sécurité mène des investigations sur Defender et Sentinel (préversion). Depuis novembre 2025, Security Copilot est inclus dans Microsoft 365 E5 ; des copilotes existent aussi dans Intune et Entra.</p>
+        </article>
+        <article class="tile c0 info">
+          <h4>Source 3 : <a href="https://cloud.google.com/blog/topics/google-cloud-next/google-cloud-next-2026-wrap-up" target="_blank" rel="noopener noreferrer">Google Cloud Next 2026, 25 avril 2026 (blog Google Cloud)</a></h4>
+          <p class="axis">Axe : copilotes de cybersécurité et exploitation</p><p>Google mise sur l'IA agentique : agents de chasse aux menaces et d'ingénierie de la détection pour la sécurité, et annonce la prise en charge à venir de gcloud, kubectl et Terraform pour automatiser l'infrastructure. Model Armor protège contre les injections de prompt et les fuites de données.</p>
+        </article>
+        <article class="tile c0 info">
+          <h4>Source 4 : <a href="https://thehackernews.com/2026/07/attacker-uses-suspected-ai-generated.html" target="_blank" rel="noopener noreferrer">The Hacker News, juillet 2026 : script PowerShell probablement généré par IA</a></h4>
+          <p class="axis">Axe : risques et sécurité</p><p>Début juin 2026, un attaquant disposant d'identifiants déjà compromis accède en RDP à un serveur Windows et lance un script, probablement généré par IA, pour cartographier Active Directory. L'IA abaisse le niveau technique nécessaire pour attaquer.</p>
+        </article>
+        <article class="tile c0 info">
+          <h4>Source 5 : <a href="https://www.lemagit.fr/actualites/366650466/Splunk-conf26-la-surveillance-des-agents-dIA-enfin-disponible" target="_blank" rel="noopener noreferrer">LeMagIT, 16 septembre 2026 : « Splunk .conf26 : la surveillance des agents d'IA enfin disponible »</a></h4>
+          <p class="axis">Axe : supervision et détection d'anomalies</p><p>Splunk lance des consoles d'observabilité pour surveiller les agents IA : traçage des actions, qualité des résultats, coût en tokens, détection des hallucinations et des accès à des données interdites. Point faible : les tarifs restent flous.</p>
+        </article>
+      </div>
+      <div class="tile c1 analysis">
+        <span class="problem-label">Mon analyse</span>
+        <p>L'IA assiste l'administrateur (scripts, investigations, supervision), mais elle demande un contrôle humain, elle sert aussi les attaquants, et il faut désormais superviser les IA elles-mêmes.</p>
+      </div>
+
+    </section>
+
+    <a class="btn btn-solid" href="#veille">← Retour au portfolio</a>
+  </div>
+</main>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<button class="to-top" id="toTop" type="button" aria-label="Remonter en haut"><svg class="ic"><use href="#i-up"/></svg></button>
+<footer>© 2026 Maxime Lamande · Portfolio BTS SIO SISR</footer>
+
+<script>
+(function(){
+  var burger=document.getElementById('burger'), menu=document.getElementById('menu');
+  burger.addEventListener('click',function(){
+    var o=menu.classList.toggle('open');
+    burger.setAttribute('aria-expanded',o?'true':'false');
+  });
+  var links=[].slice.call(menu.querySelectorAll('a'));
+  links.forEach(function(a){a.addEventListener('click',function(){menu.classList.remove('open');burger.setAttribute('aria-expanded','false')})});
+  var ids=['home','about','certifications','parcours','projects','veille','e5','e6','contact'];
+  var secs=ids.map(function(i){return document.getElementById(i)});
+  var top=document.getElementById('toTop');
+  var home=document.getElementById('portfolio'), full=document.getElementById('veille-complete');
+  function onScroll(){
+    top.classList.toggle('show',window.scrollY>600);
+    var cur=0, y=window.scrollY+140;
+    if(home.hidden)cur=ids.indexOf('veille');
+    else secs.forEach(function(s,i){if(s&&s.offsetTop<=y)cur=i});
+    links.forEach(function(a){
+      if(a.classList.contains('nav-btn'))return;
+      a.classList.toggle('active',a.getAttribute('href')==='#'+ids[cur]);
+    });
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});
+  window.addEventListener('resize',onScroll);
+  onScroll();
+  top.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})});
+  document.addEventListener('click',function(e){
+    var a=e.target.closest?e.target.closest('a[href^=\"#\"]'):null;
+    if(!a)return;
+    var id=a.getAttribute('href').slice(1),el=id?document.getElementById(id):null;
+    if(!el)return;
+    e.preventDefault();
+    var calm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var toFull=full===el||full.contains(el), toHome=home.contains(el);
+    var change=(toFull&&full.hidden)||(toHome&&home.hidden);
+    if(toFull){full.hidden=false;home.hidden=true}
+    if(toHome){home.hidden=false;full.hidden=true}
+    if(el===full)window.scrollTo({top:0,behavior:'instant'});
+    else el.scrollIntoView({behavior:change?'instant':(calm?'auto':'smooth'),block:'start'});
+    onScroll();
+    menu.classList.remove('open');burger.setAttribute('aria-expanded','false');
+  });
+  var toastEl=document.getElementById('toast'), tt;
+  function toast(m){toastEl.textContent=m;toastEl.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){toastEl.classList.remove('show')},2200)}
+  var root=document.documentElement, tb=document.getElementById('theme');
+  function eff(){return root.getAttribute('data-theme')||'light'}
+  try{var sv=localStorage.getItem('pf-theme');if(sv)root.setAttribute('data-theme',sv)}catch(e){}
+  tb.addEventListener('click',function(){
+    var n=eff()==='dark'?'light':'dark';
+    root.setAttribute('data-theme',n);
+    try{localStorage.setItem('pf-theme',n)}catch(e){}
+    toast(n==='dark'?'Thème sombre':'Thème clair');
+  });
+  ['e5','e6'].forEach(function(id){
+    var box=document.querySelector('#'+id+' .check'),pg=document.querySelector('#'+id+' .progress');
+    box.addEventListener('change',function(){
+      var n=box.querySelectorAll('input:checked').length;
+      pg.textContent=n===0?'Section à compléter · 0 pièce sur 4':n===4?'Dossier complet · 4 pièces sur 4':'En cours · '+n+(n>1?' pièces':' pièce')+' sur 4';
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
